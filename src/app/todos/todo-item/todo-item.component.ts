@@ -3,7 +3,7 @@ import { Todo } from '../models/todo.model';
 import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducer';
-import { toggle } from '../todo.actions';
+import { editar, toggle } from '../todo.actions';
 
 @Component({
   selector: 'app-todo-item',
@@ -12,17 +12,17 @@ import { toggle } from '../todo.actions';
 })
 export class TodoItemComponent implements OnInit {
   @Input() todo!: Todo;
-  @ViewChild("inputFisico") txtInputFisico!: ElementRef;
+  @ViewChild("inputFisico") inputTextFisico!: ElementRef;
 
   checkcompletado!: FormControl;
-  inputEditado!: FormControl;
-  editandoInput: boolean = false;
+  inputText!: FormControl;
+  enEdicion: boolean = false; 
 
   constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.checkcompletado = new FormControl(this.todo.completado); // El valor por defecto será el que tenga el todo recibido y no tendrá validaciones
-    this.inputEditado = new FormControl(this.todo.texto, Validators.required);
+    this.inputText = new FormControl(this.todo.texto, Validators.required);
 
     // Nos suscribimos al cambio de valor de la varialbe
     this.checkcompletado.valueChanges.subscribe(valor => {
@@ -31,14 +31,20 @@ export class TodoItemComponent implements OnInit {
   }
 
   editar() {
-    this.editandoInput = true;
+    this.enEdicion = true;
+    this.inputText.setValue(this.todo.texto); // Esto es útil para setear la información del input al quel e hemos dado doble click
 
     setTimeout(() => { // Si no hacemos el timeout el elemento no se habrá cargado aún cuando se quiera poner el foco sobre el
-      this.txtInputFisico.nativeElement.select(); // Select selecciona todo el contenido del input
+      this.inputTextFisico.nativeElement.select(); // Select selecciona todo el contenido del input
     }, 1);
   }
 
   terminarEdicion() {
-    this.editandoInput = false;
+    this.enEdicion = false;
+
+    if (this.inputText.invalid) { return; }
+    if (this.inputText.value === this.todo.texto) { return; }
+
+    this.store.dispatch(editar({ id: this.todo.id, texto: this.inputText.value }))
   }
 }

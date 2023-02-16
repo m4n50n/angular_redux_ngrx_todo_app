@@ -7,5 +7,8 @@ export const crear = createAction(
 
 export const toggle = createAction(
     '[TODO] Toggle Todo',
-    props<{ id: number | undefined }>()
-, );
+    props<{ id: number | undefined }>());
+
+export const editar = createAction(
+    '[TODO] Editar Todo',
+    props<{ id: number | undefined, texto: string }>());
