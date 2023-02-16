@@ -16,3 +16,7 @@ export const editar = createAction(
 export const borrar = createAction(
     '[TODO] Borrar Todo',
     props<{ id: number | undefined }>());
+
+export const checkAll = createAction(
+    '[TODO] Marcar todo como completado / no completado',
+    props<{ check: boolean }>());
