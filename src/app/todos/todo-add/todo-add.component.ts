@@ -23,7 +23,7 @@ export class TodoAddComponent implements OnInit {
     // console.log(this.txtInput.valid); // Comprobar si el input es válido
 
     if (this.txtInput.invalid) { return; } // Si el input no es válido no se hará nada
-    this.store.dispatch(actions.crear(this.txtInput.value));
+    this.store.dispatch(actions.crear({ texto: this.txtInput.value }));
 
     this.txtInput.reset();
   }
