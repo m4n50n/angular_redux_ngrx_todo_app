@@ -3,7 +3,7 @@ import { Todo } from './models/todo.model';
 import { crear, editar, toggle, borrar, checkAll } from './todo.actions';
 
 export const initialState: Todo[] = [ // Únicamente trabajaremos con un array de todos
-  new Todo("Estudiar") // Agregar un todo por defecto
+  // new Todo("Estudiar") // Agregar un todo por defecto
 ];
 
 export const todoReducer = createReducer(
