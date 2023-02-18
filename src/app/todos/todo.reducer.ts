@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Todo } from './models/todo.model';
-import { crear, editar, toggle, borrar, checkAll } from './todo.actions';
+import { crear, editar, toggle, borrar, checkAll, limpiarTodos } from './todo.actions';
 
 export const initialState: Todo[] = [ // Únicamente trabajaremos con un array de todos
   // new Todo("Estudiar") // Agregar un todo por defecto
@@ -43,5 +43,6 @@ export const todoReducer = createReducer(
         completado: check
       }
     })
-  })
+  }),
+  on(limpiarTodos, state => state.filter(todo => !todo.completado))
 );
